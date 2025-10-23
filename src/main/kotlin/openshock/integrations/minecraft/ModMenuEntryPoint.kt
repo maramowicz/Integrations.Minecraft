@@ -1,4 +1,4 @@
-package openshock.integrations.minecraft
+package opentingle.integrations.minecraft
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory
 import com.terraformersmc.modmenu.api.ModMenuApi

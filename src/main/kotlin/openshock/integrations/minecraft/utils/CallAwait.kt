@@ -1,4 +1,4 @@
-package openshock.integrations.minecraft.utils
+package opentingle.integrations.minecraft.utils
 
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.Call

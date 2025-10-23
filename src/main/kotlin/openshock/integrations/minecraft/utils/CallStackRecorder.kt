@@ -1,4 +1,4 @@
-package openshock.integrations.minecraft.utils
+package opentingle.integrations.minecraft.utils
 
 
 public const val OKHTTP_STACK_RECORDER_PROPERTY = "ru.gildor.coroutines.okhttp.stackrecorder"

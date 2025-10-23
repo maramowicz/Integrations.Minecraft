@@ -1,6 +1,6 @@
-package openshock.integrations.minecraft.config
+package opentingle.integrations.minecraft.config
 
-enum class DamageShockMode {
+enum class DamageTingleMode {
     LowHp,
     DamageAmount
 }

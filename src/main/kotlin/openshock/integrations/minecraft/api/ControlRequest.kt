@@ -1,3 +1,3 @@
-package openshock.integrations.minecraft.api
+package opentingle.integrations.minecraft.api
 
-data class ControlRequest(val shocks: List<ControlItem>, val customName: String)
+data class ControlRequest(val tingles: List<ControlItem>, val customName: String)

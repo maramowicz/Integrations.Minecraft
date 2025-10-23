@@ -1,4 +1,4 @@
-package openshock.integrations.minecraft.config
+package opentingle.integrations.minecraft.config
 
 import com.google.gson.GsonBuilder
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler
@@ -8,30 +8,30 @@ import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.util.Identifier
 
 
-class ShockCraftConfig {
+class TingleCraftConfig {
 
     // <--- Server --->
 
-    @SerialEntry(comment = "Base API Url of the OpenShock Backend. Official instance: https://api.shocklink.net")
-    var apiBaseUrl: String = "https://api.shocklink.net"
+    @SerialEntry(comment = "Base API Url of the OpenTingle Backend. Official instance: https://api.tinglelink.net")
+    var apiBaseUrl: String = "https://api.tinglelink.net"
 
     @SerialEntry(comment = "API Token generated on the web")
     var apiToken: String = ""
 
 
-    // <--- Shockers --->
+    // <--- Tingleers --->
 
-    @SerialEntry(comment = "Shockers to use")
-    var shockers: List<String> = ArrayList()
+    @SerialEntry(comment = "Tingleers to use")
+    var tingleers: List<String> = ArrayList()
 
 
     // <--- On Damage --->
 
-    @SerialEntry(comment = "Shock on damage?")
+    @SerialEntry(comment = "Tingle on damage?")
     var onDamage: Boolean = true
 
-    @SerialEntry(comment = "How damage shocks you")
-    var damageMode: DamageShockMode = DamageShockMode.LowHp
+    @SerialEntry(comment = "How damage tingles you")
+    var damageMode: DamageTingleMode = DamageTingleMode.LowHp
 
     @SerialEntry
     var intensityMin: Byte = 0
@@ -54,7 +54,7 @@ class ShockCraftConfig {
 
     // <--- On Death --->
 
-    @SerialEntry(comment = "Shock on death?")
+    @SerialEntry(comment = "Tingle on death?")
     var onDeath: Boolean = true
 
     @SerialEntry
@@ -68,11 +68,11 @@ class ShockCraftConfig {
 
 
     companion object {
-        var HANDLER: ConfigClassHandler<ShockCraftConfig> = ConfigClassHandler.createBuilder(ShockCraftConfig::class.java)
-            .id(Identifier("shockcraft", "config"))
-            .serializer { config: ConfigClassHandler<ShockCraftConfig?>? ->
+        var HANDLER: ConfigClassHandler<TingleCraftConfig> = ConfigClassHandler.createBuilder(TingleCraftConfig::class.java)
+            .id(Identifier("tinglecraft", "config"))
+            .serializer { config: ConfigClassHandler<TingleCraftConfig?>? ->
                 GsonConfigSerializerBuilder.create(config)
-                    .setPath(FabricLoader.getInstance().configDir.resolve("ShockCraft.json5"))
+                    .setPath(FabricLoader.getInstance().configDir.resolve("TingleCraft.json5"))
                     .appendGsonBuilder(GsonBuilder::setPrettyPrinting) // not needed, pretty print by default
                     .setJson5(true)
                     .build()

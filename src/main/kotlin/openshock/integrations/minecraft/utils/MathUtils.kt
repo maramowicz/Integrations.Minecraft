@@ -1,4 +1,4 @@
-package openshock.integrations.minecraft.utils
+package opentingle.integrations.minecraft.utils
 
 class MathUtils {
 

@@ -1,4 +1,4 @@
-package openshock.integrations.minecraft
+package opentingle.integrations.minecraft
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory
 import dev.isxander.yacl3.api.ConfigCategory
@@ -11,14 +11,14 @@ import dev.isxander.yacl3.api.controller.*
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
-import openshock.integrations.minecraft.config.DamageShockMode
-import openshock.integrations.minecraft.config.ShockCraftConfig
+import opentingle.integrations.minecraft.config.DamageTingleMode
+import opentingle.integrations.minecraft.config.TingleCraftConfig
 
 object ConfigGuiFactory : ConfigScreenFactory<Screen> {
 
     override fun create(parent: Screen): Screen {
         val yacl =
-            YetAnotherConfigLib.create(ShockCraftConfig.HANDLER) { defaults: ShockCraftConfig, config: ShockCraftConfig, builder: YetAnotherConfigLib.Builder ->
+            YetAnotherConfigLib.create(TingleCraftConfig.HANDLER) { defaults: TingleCraftConfig, config: TingleCraftConfig, builder: YetAnotherConfigLib.Builder ->
                 createBuilder(
                     defaults,
                     config,
@@ -30,42 +30,42 @@ object ConfigGuiFactory : ConfigScreenFactory<Screen> {
     }
 
     private fun createBuilder(
-        defaults: ShockCraftConfig,
-        config: ShockCraftConfig,
+        defaults: TingleCraftConfig,
+        config: TingleCraftConfig,
         builder: YetAnotherConfigLib.Builder
     ): YetAnotherConfigLib.Builder {
         return builder
-            .title(Text.literal("ShockCraft - OpenShock Minecraft Integration"))
+            .title(Text.literal("TingleCraft - OpenTingle Minecraft Integration"))
 
             .category(
                 ConfigCategory.createBuilder()
-                    .name(Text.literal("Behaviour / Shock Settings"))
+                    .name(Text.literal("Behaviour / Tingle Settings"))
 
                     .group(OptionGroup.createBuilder()
                         .name(Text.literal("On Damage"))
-                        .description(OptionDescription.of(Text.literal("Settings for shocking on damage")))
+                        .description(OptionDescription.of(Text.literal("Settings for tingleing on damage")))
 
                         .option(Option.createBuilder<Boolean>()
                             .name(Text.literal("Enabled"))
-                            .description(OptionDescription.of(Text.literal("Enable shocking on damage")))
+                            .description(OptionDescription.of(Text.literal("Enable tingleing on damage")))
                             .controller { TickBoxControllerBuilder.create(it) }
                             .binding(defaults.onDamage, { config.onDamage }, { config.onDamage = it })
                             .build()
                         )
-                        .option(Option.createBuilder<DamageShockMode>()
+                        .option(Option.createBuilder<DamageTingleMode>()
                             .name(Text.literal("On Damage Action"))
                             .description(
                                 OptionDescription.of(
                                     Text.literal(
                                         "Defines what happens when you receive damage.\n" +
                                                 "None = Turned off duh\n" +
-                                                "Low Hp = You get shocked at higher intensity the less HP you have\n" +
-                                                "Damage Amount = You get shocked the amount of damage you have received"
+                                                "Low Hp = You get tingleed at higher intensity the less HP you have\n" +
+                                                "Damage Amount = You get tingleed the amount of damage you have received"
                                     )
                                 )
                             )
                             .controller {
-                                EnumControllerBuilder.create(it).enumClass(DamageShockMode::class.java)
+                                EnumControllerBuilder.create(it).enumClass(DamageTingleMode::class.java)
                             }
                             .binding(defaults.damageMode, { config.damageMode }, { config.damageMode = it })
                             .build()
@@ -99,7 +99,7 @@ object ConfigGuiFactory : ConfigScreenFactory<Screen> {
 
                         .option(Option.createBuilder<Int>()
                             .name(Text.literal("Damage Threshold"))
-                            .description(OptionDescription.of(Text.literal("How much damage you need to take, or have until a shock is sent")))
+                            .description(OptionDescription.of(Text.literal("How much damage you need to take, or have until a tingle is sent")))
                             .controller { option: Option<Int> ->
                                 IntegerSliderControllerBuilder.create(option)
                                     .range(1, 20)
@@ -114,7 +114,7 @@ object ConfigGuiFactory : ConfigScreenFactory<Screen> {
 
                         .option(Option.createBuilder<Int>()
                             .name(Text.literal("Cooldown"))
-                            .description(OptionDescription.of(Text.literal("Cooldown between on damage shocks")))
+                            .description(OptionDescription.of(Text.literal("Cooldown between on damage tingles")))
                             .controller { option ->
                                 IntegerSliderControllerBuilder.create(option)
                                     .range(300, 60_000)
@@ -136,7 +136,7 @@ object ConfigGuiFactory : ConfigScreenFactory<Screen> {
 
                         .option(Option.createBuilder<Boolean>()
                             .name(Text.literal("Enabled"))
-                            .description(OptionDescription.of(Text.literal("Enable shocking on death")))
+                            .description(OptionDescription.of(Text.literal("Enable tingleing on death")))
                             .controller { TickBoxControllerBuilder.create(it) }
                             .binding(defaults.onDeath, { config.onDeath }, { config.onDeath = it })
                             .build()
@@ -181,11 +181,11 @@ object ConfigGuiFactory : ConfigScreenFactory<Screen> {
                     // Server group
                     .group(OptionGroup.createBuilder()
                         .name(Text.literal("Server"))
-                        .description(OptionDescription.of(Text.literal("Server / OpenShock Backend Settings and Shocker Setup")))
+                        .description(OptionDescription.of(Text.literal("Server / OpenTingle Backend Settings and Tingleer Setup")))
                         .option(
                             Option.createBuilder<String>()
                                 .name(Text.literal("API URL"))
-                                .description(OptionDescription.of(Text.literal("The API base URL of the OpenShock Backend. For the official instance this is https://api.openshock.org")))
+                                .description(OptionDescription.of(Text.literal("The API base URL of the OpenTingle Backend. For the official instance this is https://api.opentingle.org")))
                                 .controller { option: Option<String>? -> StringControllerBuilder.create(option) }
                                 .binding(
                                     defaults.apiBaseUrl,
@@ -196,7 +196,7 @@ object ConfigGuiFactory : ConfigScreenFactory<Screen> {
                         .option(
                             Option.createBuilder<String>()
                                 .name(Text.literal("API Token"))
-                                .description(OptionDescription.of(Text.literal("API Token generated on the web, needs shocker use permission")))
+                                .description(OptionDescription.of(Text.literal("API Token generated on the web, needs tingleer use permission")))
                                 .controller { option: Option<String> -> StringControllerBuilder.create(option) }
                                 .binding(
                                     defaults.apiToken,
@@ -206,16 +206,16 @@ object ConfigGuiFactory : ConfigScreenFactory<Screen> {
                         ).build()
                     )
 
-                    // Shocker group
+                    // Tingleer group
 
                     .group(ListOption.createBuilder<String>()
-                        .name(Text.literal("Shockers"))
+                        .name(Text.literal("Tingleers"))
                         .controller { option: Option<String> -> StringControllerBuilder.create(option) }
                         .binding(
-                            defaults.shockers,
-                            { config.shockers },
-                            { config.shockers = it })
-                        .initial("Put your Shocker ID here")
+                            defaults.tingleers,
+                            { config.tingleers },
+                            { config.tingleers = it })
+                        .initial("Put your Tingleer ID here")
                         .build()
                     )
 

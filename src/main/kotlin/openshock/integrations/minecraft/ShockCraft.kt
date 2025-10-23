@@ -1,4 +1,4 @@
-package openshock.integrations.minecraft
+package opentingle.integrations.minecraft
 
 import com.mojang.brigadier.CommandDispatcher
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -18,22 +18,22 @@ import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.text.Text
 import okhttp3.internal.wait
-import openshock.integrations.minecraft.config.DamageShockMode
-import openshock.integrations.minecraft.config.ShockCraftConfig
-import openshock.integrations.minecraft.api.ControlType
-import openshock.integrations.minecraft.api.OpenShockApi
-import openshock.integrations.minecraft.utils.MathUtils
+import opentingle.integrations.minecraft.config.DamageTingleMode
+import opentingle.integrations.minecraft.config.TingleCraftConfig
+import opentingle.integrations.minecraft.api.ControlType
+import opentingle.integrations.minecraft.api.OpenTingleApi
+import opentingle.integrations.minecraft.utils.MathUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.Calendar
 
-object ShockCraft : ModInitializer {
-    public val logger: Logger = LoggerFactory.getLogger("shockcraft")
+object TingleCraft : ModInitializer {
+    public val logger: Logger = LoggerFactory.getLogger("tinglecraft")
 
     override fun onInitialize() {
         logger.info("Hello Fabric world!")
 
-        ShockCraftConfig.HANDLER.load()
+        TingleCraftConfig.HANDLER.load()
 
         ClientTickEvents.END_CLIENT_TICK.register(EndTick { clientTickLoopFun() })
     }
@@ -69,7 +69,7 @@ object ShockCraft : ModInitializer {
             logger.debug("Game menu closed")
         }
 
-        // Pause menu is open or one of its childs. Reset so we dont shock when you close it again and have taken damage
+        // Pause menu is open or one of its childs. Reset so we dont tingle when you close it again and have taken damage
         if(pauseMenuOpen) {
             reset()
             return
@@ -119,30 +119,30 @@ object ShockCraft : ModInitializer {
     }
 
     private suspend fun onDeath(player: ClientPlayerEntity) {
-        val config = ShockCraftConfig.HANDLER.instance()
+        val config = TingleCraftConfig.HANDLER.instance()
         if (!config.onDeath) return
 
-        OpenShockApi.control(
-            ControlType.Shock,
+        OpenTingleApi.control(
+            ControlType.Tingle,
             config.onDeathIntensity,
             config.onDeathDuration,
             getName(player.recentDamageSource)
         )
     }
 
-    private var lastShock: Long = -1
+    private var lastTingle: Long = -1
 
     private suspend fun onDamage(player: ClientPlayerEntity, damage: Float) {
-        val config = ShockCraftConfig.HANDLER.instance()
+        val config = TingleCraftConfig.HANDLER.instance()
         if (!config.onDamage) return
 
         val currentTime = Calendar.getInstance().timeInMillis
-        if (lastShock + config.cooldown.toLong() > currentTime) {
+        if (lastTingle + config.cooldown.toLong() > currentTime) {
             logger.info("OnDamage is on cooldown")
             return
         }
 
-        lastShock = currentTime
+        lastTingle = currentTime
 
         val percentageThreshold = config.damageThreshold.toFloat() / 20f
 
@@ -150,7 +150,7 @@ object ShockCraft : ModInitializer {
         val duration: UShort
 
         when (config.damageMode) {
-            DamageShockMode.LowHp -> {
+            DamageTingleMode.LowHp -> {
                 val percentageDamage = 1 - (player.health / player.maxHealth).coerceAtLeast(0f).coerceAtMost(1f)
                 if (percentageDamage < percentageThreshold) {
                     logger.debug("Damage percentage is below threshold")
@@ -161,7 +161,7 @@ object ShockCraft : ModInitializer {
                 duration = MathUtils.lerp(config.durationMin, config.durationMax, percentageDamage)
             }
 
-            DamageShockMode.DamageAmount -> {
+            DamageTingleMode.DamageAmount -> {
                 val percentageDamage = (damage / player.maxHealth).coerceAtLeast(0f).coerceAtMost(1f)
                 if (percentageDamage < percentageThreshold) {
                     logger.debug("Damage percentage is below threshold")
@@ -173,8 +173,8 @@ object ShockCraft : ModInitializer {
             }
         }
 
-        OpenShockApi.control(
-            ControlType.Shock,
+        OpenTingleApi.control(
+            ControlType.Tingle,
             intensity,
             duration,
             getName(player.recentDamageSource)

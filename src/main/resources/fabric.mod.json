@@ -1,34 +1,34 @@
 {
 	"schemaVersion": 1,
-	"id": "shockcraft",
+	"id": "tinglecraft",
 	"version": "${version}",
-	"name": "ShockCraft",
-	"description": "OpenShock integration for Minecraft",
+	"name": "TingleCraft",
+	"description": "OpenTingle integration for Minecraft",
 	"authors": [
 		"Luc",
-		"OpenShock Team"
+		"OpenTingle Team"
 	],
 	"contact": {
-		"homepage": "https://openshock.org/",
-		"issues": "https://github.com/OpenShock/Integrations.Minecraft/issues",
-		"sources": "https://github.com/OpenShock/Integrations.Minecraft"
+		"homepage": "https://opentingle.org/",
+		"issues": "https://github.com/OpenTingle/Integrations.Minecraft/issues",
+		"sources": "https://github.com/OpenTingle/Integrations.Minecraft"
 	},
 	"license": "GPL-3.0",
-	"icon": "assets/shockcraft/icon.png",
+	"icon": "assets/tinglecraft/icon.png",
 	"environment": "client",
 	"entrypoints": {
 		"main": [
 			{
-				"value": "openshock.integrations.minecraft.ShockCraft",
+				"value": "opentingle.integrations.minecraft.TingleCraft",
 				"adapter": "kotlin"
 			}
 		],
 		"modmenu": [
-			"openshock.integrations.minecraft.ModMenuEntryPoint"
+			"opentingle.integrations.minecraft.ModMenuEntryPoint"
 		]
 	},
 	"mixins": [
-		"shockcraft.mixins.json"
+		"tinglecraft.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.17.3",
@@ -42,7 +42,7 @@
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.discord": "https://discord.gg/OpenShock"
+				"modmenu.discord": "https://discord.gg/OpenTingle"
 			}
 		}
 	}

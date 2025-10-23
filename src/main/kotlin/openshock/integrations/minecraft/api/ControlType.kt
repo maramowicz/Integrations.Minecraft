@@ -1,8 +1,8 @@
-package openshock.integrations.minecraft.api
+package opentingle.integrations.minecraft.api
 
 enum class ControlType {
     Stop,
-    Shock,
+    Tingle,
     Vibrate,
     Sound
 }
