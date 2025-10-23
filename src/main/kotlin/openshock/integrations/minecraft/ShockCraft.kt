@@ -182,11 +182,9 @@ object ShockCraft : ModInitializer {
     }
 
     private fun getName(damageSource: DamageSource?): String {
-        if (damageSource != null) {
-            return if (damageSource.attacker != null && damageSource.attacker!!.name.literalString != null) damageSource.attacker!!.name.literalString!!
-            else damageSource.name
-        }
-        return "Unknown"
+        return damageSource?.attacker?.name?.string
+            ?: damageSource?.name
+            ?: "Unknown"
     }
 
 }
